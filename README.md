@@ -1,7 +1,7 @@
 | Code Smell                                                                                                  |
 | :--                                                                                                         |
 | [Not unsubscribe a subscription](./code-smell/not_unsubscribe_subscriptions.md)                                          |
-| [Unoptimized module loading](./code-smell/unoptimized_module_loading.md)                                                 |
+| [Not Using Lazy Loading](./code-smell/not_using_lazy_loading.md)                                                 |
 | [God Component](./code-smell/god_component.md)                                                                           |
 | [Nested subscriptions](./code-smell/nested_subscriptions.md)                                                             |
 | [Default change detection instead OnPush](./code-smell/default_change_detection_instead_onpush.md)                       |
