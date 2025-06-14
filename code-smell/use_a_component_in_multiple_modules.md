@@ -23,17 +23,25 @@ This code smell points to a lack of modular organization in the project’s arch
 The same component is declared in two different modules:
 
 ```ts
-@NgModule({
-  declarations: [HeroComponent],
-  exports: [HeroComponent]
+@Component({
+  selector: 'app-hero',
+  template: '<p>Hero works!</p>'
 })
-export class AdminModule {}
+export class HeroComponent {}
 ```
 
 ```ts
 @NgModule({
-  declarations: [HeroComponent], // Already declared in AdminModule
-  exports: [HeroComponent]
+  declarations: [HeroComponent],
+  exports: []
+})
+export class HeroesModule {}
+```
+
+```ts
+@NgModule({
+  declarations: [HeroComponent],
+  exports: []
 })
 export class DashboardModule {}
 ```
@@ -45,26 +53,23 @@ export class DashboardModule {}
 Declare the component in a dedicated feature module and reuse it through `exports`/`imports`:
 
 ```ts
-// hero.module.ts
 @NgModule({
   declarations: [HeroComponent],
-  exports: [HeroComponent]
+  exports: [HeroComponent] // Expose to ohter modules
 })
-export class HeroModule {}
+export class SharedModule {}
 ```
 
 ```ts
-// admin.module.ts
 @NgModule({
-  imports: [HeroModule]
+  imports: [SharedModule]
 })
-export class AdminModule {}
+export class HeroesModule {}
 ```
 
 ```ts
-// dashboard.module.ts
 @NgModule({
-  imports: [HeroModule]
+  imports: [SharedModule]
 })
 export class DashboardModule {}
 ```
