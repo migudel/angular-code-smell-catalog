@@ -97,6 +97,8 @@ export class JourneyListItemComponent implements OnDestroy {
 
 
 ### Use `publishReplay(1)` and `refCount()`
+> [!warning]
+> This solution was found in the source [Blog eyas][1], a 2018 article. The solution they propose is deprecated since RxJS v7 and will disappear in the upcoming v8. Instead, they recommend using [`share`](https://rxjs.dev/api/operators/share).
 
 This approach caches the result for reuse across multiple subscribers, avoiding redundant operations.
 
@@ -116,27 +118,11 @@ pageTitle = this.route.params.pipe(
 <p>You are viewing {{ pageTitle | async }}.</p>
 ```
 
-### Angular 16+ with `takeUntilDestroyed`
-
-```ts
-@Component({...})
-export class JourneyListItemComponent {
-  journey: Journey | undefined;
-
-  constructor(private journeyService: JourneyService) {
-    this.journeyId$.pipe(
-      distinctUntilChanged(),
-      switchMap(id => this.journeyService.getJourney(id)),
-      shareReplay(1),
-      takeUntilDestroyed()
-    ).subscribe(journey => this.journey = journey);
-  }
-}
-```
-
 ---
 
 ## Sources
 
 - [https://medium.com/@robert.maiersilldorff/code-smells-in-angular-deep-dive-part-i-d63dd5f5215e](https://medium.com/@robert.maiersilldorff/code-smells-in-angular-deep-dive-part-i-d63dd5f5215e) – Section 5
 - [https://blog.eyas.sh/2018/12/use-asyncpipe-when-possible/](https://blog.eyas.sh/2018/12/use-asyncpipe-when-possible/)
+
+[1]:https://blog.eyas.sh/2018/12/use-asyncpipe-when-possible/
