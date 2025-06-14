@@ -55,7 +55,7 @@ Declare the component in a dedicated feature module and reuse it through `export
 ```ts
 @NgModule({
   declarations: [HeroComponent],
-  exports: [HeroComponent] // Expose to ohter modules
+  exports: [HeroComponent] // Expose to other modules
 })
 export class SharedModule {}
 ```
