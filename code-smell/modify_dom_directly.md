@@ -8,11 +8,15 @@ Angular is a framework built around a **declarative and reactive model**. It pro
 
 Instead of directly manipulating the DOM, Angular encourages the use of:
 
-- **Template bindings and structural bindings** (`[hidden]`, `[style]`, `[class]`, `[attr.disabled]`, `[innerHTML]`, etc.)
+- **Template bindings** (`[hidden]`, `[style]`, `[class]`, `[attr.disabled]`, `[innerHTML]`, etc.)
 - **Structural and attribute directives** (`*ngIf`, `*ngFor`, `ngClass`, `ngStyle`)
 - **Custom directives** for more advanced behavior
 - **`Renderer2`** for safe and decoupled DOM manipulation
-- **`ElementRef`** only in highly controlled and sanitized contexts
+
+> [!warning]
+> This last option is provided by Angular and had one property ([`nativeElement`](https://angular.dev/api/core/ElementRef)) which it is not recommended. Direct DOM manipulation should only be considered if it is absolutely necessary. Before applying it, carefully reconsider other safer alternatives. If you must use it, it is strongly recommended to combine it with DomSanitizer to ensure maximum security.
+
+- ElementRef should only be used in highly controlled and fully sanitized contexts.
 
 ## Why This Is a Code Smell
 
@@ -58,7 +62,8 @@ export class TestComponent {
   isDisabled = true;
   isHighlighted = true;
   htmlContent = this.sanitizer.bypassSecurityTrustHtml('<p>Hello</p>');
-
+  // The following code is not recommended if it is not absolutely 
+  // necessary but is shown to correspond to the non-compliant example
   constructor(private sanitizer: DomSanitizer) {}
 }
 ```
