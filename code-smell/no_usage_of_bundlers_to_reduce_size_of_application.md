@@ -1,3 +1,10 @@
+> [!warning]
+> # This smell is pending review
+> This approach to the smell is not quite correct.
+> The content is correct but it is not the smell of the code as such, or at least not completely.
+> 
+> Will be fixed soon
+
 # No Usage of Bundlers to Reduce Size of Application
 
 ## Description
