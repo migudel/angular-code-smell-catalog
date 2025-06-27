@@ -1,3 +1,9 @@
+> [!warning]
+> # The examples of this smell are pending review
+> The content is correct but the code examples are deprecated cause of routes files.
+> 
+> Will be fixed soon
+
 # Not Using Lazy Loading
 
 > [!Note]
