@@ -4,7 +4,7 @@
 
 This code smell occurs when an `Observable` or `Subject` is passed directly to a child component via `@Input()`, instead of providing already-consumed data (e.g., via `async` pipe) or handling subscriptions entirely in the parent component.
 
-While technically valid, passing streams directly increases the child component's dependency on RxJS. It forces the child to manage subscriptions, intermediate state, or transformations—responsibilities that should remain in higher-level components.
+While technically valid, passing streams directly increases the child component's dependency on RxJS. It forces the child to manage subscriptions, intermediate state, or transformations —responsibilities that should remain in higher-level components.
 
 In Angular, child components should receive **ready-to-display data**, while observables and reactive logic should remain encapsulated in the parent or container component that controls the data flow.
 

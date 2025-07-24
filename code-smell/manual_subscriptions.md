@@ -2,9 +2,11 @@
 
 ## Description
 
-This code smell occurs when subscriptions are managed manually inside Angular components using `.subscribe()` instead of leveraging the `async` pipe in the template whenever possible. Although there are valid use cases for manual subscriptions (e.g., cold observables or one-time HTTP calls), relying on them by default introduces risks.
+This code smell occurs when subscriptions are managed manually inside Angular components using `.subscribe()` instead of leveraging the `async` pipe in the template whenever possible —specifically when the observable's value is only used for presentation and its lifecycle can naturally align with the component's.
 
-Manually subscribing transfers the responsibility of unsubscribing to the developer, which can lead to memory leaks and lifecycle issues if not handled properly. See also: [Not Unsubscribing Subscriptions](not_unsubscribe_subscriptions.md).
+. Although there are valid use cases for manual subscriptions (e.g., cold observables or one-time HTTP calls), relying on them by default introduces risks.
+
+Manually subscribing transfers the responsibility of unsubscribing to the developer, which can lead to memory leaks and lifecycle issues if not handled properly. See also: [Not Unsubscribing Subscriptions](not_unsubscribing_subscriptions.md).
 
 The `async` pipe abstracts away subscription and unsubscription logic by automatically subscribing to an observable and cleaning it up when the component is destroyed. This results in cleaner, safer, and more maintainable code.
 
@@ -40,7 +42,6 @@ export class Foo implements OnInit {
 ```
 
 ```ts
-// Or manually managing the subscription lifecycle:
 @Component({
   template: '<span>{{someStringToDisplay}}</span>'
 })
@@ -53,7 +54,6 @@ export class Foo implements OnInit, OnDestroy {
       .pipe(map(/*...*/))
       .subscribe((next) => {
         this.someStringToDisplay = next;
-        this.ref.markForCheck();
       });
   }
 

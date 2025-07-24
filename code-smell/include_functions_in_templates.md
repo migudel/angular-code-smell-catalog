@@ -2,7 +2,7 @@
 
 ## Description
 
-This code smell appears when functions are called directly inside Angular templates—whether in interpolation expressions (`{{ }}`) or structural directives like `*ngIf` or `*ngFor`.
+This code smell appears when functions are called directly inside Angular templates —whether in interpolation expressions (`{{ }}`) or structural directives like `*ngIf` or `*ngFor`.
 
 Although it may seem convenient, such calls can severely impact performance and reduce maintainability. These functions are executed on every change detection cycle, often resulting in unnecessary repeated invocations.
 
@@ -14,7 +14,7 @@ To avoid this, it's recommended to:
 - Use custom **pure pipes** to perform declarative transformations in the view.
 
 > [!NOTE]
-> There is an `@angular-eslint` rule related to this smell: [`no-pipe-impure`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/src/rules/no-pipe-impure.ts), which ensures that custom pipes are pure, although it does not fully address this issue.
+> There is an `@angular-eslint` rule related to this smell: [`no-pipe-impure`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-pipe-impure.md), which ensures that custom pipes are pure, although it does not fully address this issue.
 
 ## Why This Is a Code Smell
 

@@ -1,4 +1,4 @@
-# Use of Stateful Streams
+# Use Stateful Streams
 
 ## Description
 

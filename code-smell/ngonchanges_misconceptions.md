@@ -2,7 +2,7 @@
 
 ## Description
 
-This code smell refers to the improper and often confusing use of Angular's `ngOnChanges` and `ngDoCheck` lifecycle hooks—especially when developers do not fully understand when or how these hooks are triggered.
+This code smell refers to the improper and often confusing use of Angular's `ngOnChanges` and `ngDoCheck` lifecycle hooks —especially when developers do not fully understand when or how these hooks are triggered.
 
 Although both hooks are designed to react to changes, they serve **different purposes** and exhibit **very different behaviors**. Mixing logic between them often leads to redundant, inefficient, or hard-to-maintain code.
 
@@ -10,7 +10,7 @@ Although both hooks are designed to react to changes, they serve **different pur
 
 - `ngDoCheck`, on the other hand, triggers **on every change detection cycle** and allows for **custom change detection logic**. It is useful when you need to detect internal mutations or perform deep comparisons. However, it is also more error-prone and can introduce **performance or logic issues** if not used carefully.
 
-In general, when you only need to react to reference changes, prefer `ngOnChanges`. When tracking deep or internal mutations, `ngDoCheck` may be appropriate—but it requires caution and additional management to avoid inefficiency or unintended behavior. [lifecycles-hooks]
+In general, when you only need to react to reference changes, prefer `ngOnChanges`. When tracking deep or internal mutations, `ngDoCheck` may be appropriate —but it requires caution and additional management to avoid inefficiency or unintended behavior. [lifecycles-hooks]
 
 > [!note]
 > When using `ngDoCheck`, be mindful of performance implications. It is strongly recommended to configure `ChangeDetectionStrategy.OnPush` and ensure changes are signaled correctly.
@@ -19,9 +19,8 @@ In general, when you only need to react to reference changes, prefer `ngOnChange
 >
 > - Cloning objects with updated properties (e.g., `{ updated: true, ...old }`) so that reference changes can be detected by `ngOnChanges`.
 > - Using Observables instead of manual mutations, aligning with Angular's reactive patterns.
-> - As a last resort, calling `ChangeDetectorRef.markForCheck()`—though this should be avoided in favor of better architectural strategies.
+> - As a last resort, calling `ChangeDetectorRef.markForCheck()` —though this should be avoided in favor of better architectural strategies.
 
----
 
 ## Why This Is a Code Smell
 

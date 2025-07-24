@@ -16,7 +16,7 @@ By keeping the dumb component decoupled from business logic, we increase its reu
 - **Violation of the Single Responsibility Principle**: A monolithic component that handles both business logic and UI breaks the SOLID SRP principle, making it harder to reason about or evolve.
 - **Difficult to unit test**: Mixing logic and UI requires unnecessary dependencies in unit tests, which increases test complexity and brittleness.
 - **Limited reusability**: The UI logic is tightly coupled with context-specific business rules, making it harder to reuse the presentation layer in other contexts without duplication.
-- **Higher maintenance cost**: Any change—whether in logic or UI—requires modifying a single large file, increasing the risk of introducing regressions or unrelated bugs.
+- **Higher maintenance cost**: Any change —whether in logic or UI— requires modifying a single large file, increasing the risk of introducing regressions or unrelated bugs.
 
 ---
 

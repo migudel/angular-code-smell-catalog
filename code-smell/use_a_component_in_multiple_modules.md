@@ -2,7 +2,7 @@
 
 ## Description
 
-One of the most common—and often overlooked—mistakes in Angular is **attempting to declare the same component in multiple modules** (`NgModule`). Angular **explicitly disallows** a component from being listed in the `declarations` array of more than one module, and doing so will result in compilation errors.
+One of the most common —and often overlooked— mistakes in Angular is **attempting to declare the same component in multiple modules** (`NgModule`). Angular **explicitly disallows** a component from being listed in the `declarations` array of more than one module, and doing so will result in compilation errors.
 
 This code smell points to a lack of modular organization in the project’s architecture. The proper solution is to **declare the component once in its own feature module, export it from there, and import that module wherever the component is needed**.
 

@@ -1,119 +1,91 @@
-> [!warning]
-> # This smell is pending review
-> This approach to the smell is not quite correct.
-> The content is correct but it is not the smell of the code as such, or at least not completely.
-> 
-> Will be fixed soon
-
 # No Usage of Bundlers to Reduce Size of Application
 
+> [!note]
+> This code smell applies to Angular 8.x applications (when Ivy was experimental and had to be enabled manually). Starting with Angular 9, Ivy is the default rendering engine, and as of Angular 12 it is the only supported engine.
+
 ## Description
+Failing to enable Angular’s Ivy compiler and AOT (*Ahead‑of‑Time*) compilation prevents you from taking advantage of Ivy’s built‑in optimizations—most importantly tree‑shaking unused code, reducing bundle size, speeding up builds, and improving debugging.
 
-This code smell occurs when an Angular application fails to leverage the available tools and configurations to minimize the final bundle size delivered to the client. This includes misconfigured builds, the absence of *lazy loading*, or inefficient use of third-party libraries.
+This typically happens when:
 
-Since Angular 9, the introduction of the **Ivy** compiler and rendering engine has enabled significantly smaller bundle sizes through features like **tree-shaking** and more granular component compilation. Ivy became the default and only rendering engine starting from Angular 12. However, taking full advantage of its benefits requires adhering to specific optimization practices:
+- In **Angular 8**, the `enableIvy` flag is set to `false` under `angularCompilerOptions` in **`angular.json`**.
+- AOT is disabled (e.g. `"aot": false`) under the build options in **`angular.json`** or **`tsconfig.json`**.
 
-- Using the `ng build --configuration production` command
-- Removing unused global imports
-- Using pure pipes (`pure: true`)
-- Applying lazy loading for modules and components
-- Configuring build budgets in `angular.json`
-- Structuring the app by domain using standalone components where appropriate
+Beyond simply enabling Ivy and AOT, you can further optimize your bundles by:
 
-These techniques reduce the size of generated bundles, leading to faster load times, better user experience, and improved performance on low-powered or mobile devices.
+- **Lazy‑loading** feature modules or standalone components to split bundles.
+- **Removing unused imports** from third‑party libraries to help tree‑shaking eliminate dead code.
+- **Using pure pipes** (`@Pipe({ pure: true })`) so that Angular can cache transforms and drop unused logic.
 
----
+By combining these practices, your final production bundles will be smaller, load faster, and perform better on low‑powered or mobile devices.
 
 ## Why This Is a Code Smell
 
-- **Leads to unnecessarily large bundles**: increasing download, parse, and execution times in the browser.
-- **Fails to leverage Ivy’s optimizations**: such as eliminating unused code and efficiently compiling components.
-- **Violates the principle of progressive modularity**: by loading the entire application eagerly.
-- **Impacts user experience negatively**: especially under poor network conditions or on low-end devices.
-- **Hinders maintainability and scalability**: by lacking visibility and constraints on bundle sizes and artifacts.
+- **Excessively large bundles** lead to longer download, parse, and execution times.
+- **Missed Ivy optimizations** mean unused code isn’t eliminated and component compilation is less efficient.
+- **Poor user experience**, especially for users on slow networks or older hardware.
 
 ---
 
-## Non-Compliant Code Example
+## Non‑Compliant Example
 
-- Not using `ng build --configuration production`
+In this example, Ivy and AOT are both disabled, so none of Ivy’s optimizations can run:
 
-- No budget configuration in `angular.json`
-
-- Importing entire libraries unnecessarily:
-
-  ```ts
-  // Tree-shaking is not possible
-  import * as lodash from 'lodash';
-  ```
-
-- Eagerly loading large modules:
-
-  ```ts
-  import { AdminModule } from './admin/admin.module';
-
-  const routes: Routes = [
-    {
-      path: 'admin',
-      children: AdminModule.routes
-    }
-  ];
-  ```
-
----
-
-## Compliant Code Example
-
-### Optimized Build Command
-
-```bash
-ng build --configuration production
-```
-
-### Specific Imports
-
-```ts
-// Enables Tree-shaking
-import cloneDeep from 'lodash/cloneDeep'; 
-```
-
-### Lazy Loading Modules
-
-```ts
-const routes: Routes = [
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then(m => m.AdminModule)
-  }
-];
-```
-
-### Budget Configuration in `angular.json`
-
-```json
-"configurations": {
-  "production": {
-    "budgets": [
-      {
-        "type": "initial",
-        "maximumWarning": "2mb",
-        "maximumError": "5mb"
-      },
-      {
-        "type": "anyComponentStyle",
-        "maximumWarning": "6kb"
+### `tsconfig.json`
+```jsonc
+{
+  "projects": {
+    "my-existing-project": {
+      "architect": {
+        "build": {
+          "options": {
+            "aot": false,
+          }
+        }
       }
-    ],
-    "optimization": true,
-    "outputHashing": "all",
-    "aot": true,
-    "extractCss": true,
-    "namedChunks": false,
-    "extractLicenses": true,
-    "vendorChunk": false,
-    "buildOptimizer": true,
-    "sourceMap": false
+    }
+  }
+}   
+```
+
+### `angular.json`
+```json
+{
+  "angularCompilerOptions": {
+    "enableIvy": false,
+  }
+}
+```
+
+---
+
+## Compliant Example
+
+Enable both Ivy and AOT. From Angular 9 onward, you can remove `enableIvy` entirely (it defaults to `true`): 
+
+### `tsconfig.json`
+```json
+{
+  "projects": {
+    "my-existing-project": {
+      "architect": {
+        "build": {
+          "options": {
+            "aot": true,
+          }
+        }
+      }
+    }
+  }
+}   
+```
+
+### `angular.json`
+```jsonc
+{
+  "angularCompilerOptions": {
+    // No need for "angularCompilerOptions.enableIvy" from Angular 9+
+    "enableIvy": true,
   }
 }
 ```
@@ -121,9 +93,9 @@ const routes: Routes = [
 ---
 
 > [!Tip]
-> To improve bundle efficiency and reduce overall size:
+> **Additional bundle‑size optimizations:**
 >
-> - **Use pure pipes** to enable Ivy to exclude unused logic:
+> - **Use pure pipes** to let Ivy cache and drop unused logic:
 >
 >   ```ts
 >   @Pipe({ name: 'uppercaseName', pure: true })
@@ -133,7 +105,8 @@ const routes: Routes = [
 >     }
 >   }
 >   ```
-> - **Split code by domain**, and use `standalone` components when possible to encourage bundle fragmentation and modular delivery.
+> - **Split by domain** and prefer **standalone components** to encourage code fragmentation.
+> - **Implement lazy loading** for feature modules or routes. See [Not Using Lazy Loading](not_using_lazy_loading.md) for details.
 
 ---
 

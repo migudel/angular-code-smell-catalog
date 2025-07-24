@@ -4,7 +4,7 @@
 
 This code smell occurs when templates contain excessive or complex logic.
 
-While Angular templates support basic conditions, relying too heavily on in-template logic—such as chained comparisons, nested conditions, or negations—makes the view difficult to read, maintain, and test. Overuse of structural directives like `*ngIf`, `*ngFor`, or `ngSwitch` with complex expressions is another common symptom.
+While Angular templates support basic conditions, relying too heavily on in-template logic —such as chained comparisons, nested conditions, or negations— makes the view difficult to read, maintain, and test. Overuse of structural directives like `*ngIf`, `*ngFor`, or `ngSwitch` with complex expressions is another common symptom.
 
 To improve clarity and maintainability, it's recommended to:
 
@@ -62,8 +62,6 @@ export class TestComponent implements OnInit {
   }
 }
 ```
-
----
 
 ### Use Custom Structural Directives
 

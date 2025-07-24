@@ -5,8 +5,8 @@
 A **God Component** in Angular is one that takes on too many responsibilities. It often handles data fetching, state management, event handling, complex business logic, and UI rendering all within a single component. This violates the **Single Responsibility Principle (SRP)** and hinders both scalability and testability.
 
 > [!Note]
-> This code smell often appears alongside [`Mixing Smart and Dumb Components`](mixing_smart_and_dump_components.md), due to their high similarity and conceptual overlap.
-> The key difference is that **God Component** refers to an abuse of responsibilities within a single component, while *Mixing Smart and Dumb Components* refers to mixing component roles—combining presentation-only components (dumb) with those responsible for orchestration and data management (smart).
+> This code smell often appears alongside [`Mixing Smart and Dumb Components`](mixing_smart_and_dumb_components.md), due to their high similarity and conceptual overlap.
+> The key difference is that **God Component** refers to an abuse of responsibilities within a single component, while *Mixing Smart and Dumb Components* refers to mixing component roles —combining presentation-only components (dumb) with those responsible for orchestration and data management (smart).
 
 ## Why This Is a Code Smell
 

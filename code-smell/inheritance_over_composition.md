@@ -11,7 +11,7 @@ Instead, it's recommended to use **composition**: create reusable components or 
 ## Why This Is a Code Smell
 
 - **Tight coupling:** Inheritance creates a strong dependency between base and child components, making changes harder and reducing flexibility.
-- **Limited reusability:** Derived components inherit all functionality from the base class—even unnecessary parts—leading to bloated and less maintainable components.
+- **Limited reusability:** Derived components inherit all functionality from the base class —even unnecessary parts— leading to bloated and less maintainable components.
 - **Difficult unit testing:** Shared dependencies in the base class complicate the testing of derived components, especially when mocking is required.
 - **Fragile maintenance:** Any change in the base component can introduce unexpected side effects in all components that inherit from it, increasing the risk of regressions.
 

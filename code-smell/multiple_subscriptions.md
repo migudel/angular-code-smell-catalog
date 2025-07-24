@@ -7,7 +7,7 @@ This code smell occurs when there are **multiple subscriptions to the same `Obse
 - Explicitly via multiple `.subscribe()` calls in different parts of the component, or
 - Implicitly in the HTML template by using the `async` pipe multiple times on the same `Observable`.
 
-This pattern can lead to **undesired side effects**, especially if the `Observable` is **cold** (e.g., an HTTP request), since it re-executes every time it's subscribed to—potentially duplicating requests, computations, or event emissions.
+This pattern can lead to **undesired side effects**, especially if the `Observable` is **cold** (e.g., an HTTP request), since it re-executes every time it's subscribed to —potentially duplicating requests, computations, or event emissions.
 
 In Angular, this often happens when the same `Observable` is used with the `async` pipe in multiple places without sharing the underlying stream. The recommended solution is to **share the stream** using operators like `shareReplay` or `publishReplay(1), refCount()` for **local caching**, or to store the intermediate result in a variable.
 
@@ -93,7 +93,7 @@ export class JourneyListItemComponent implements OnDestroy {
 ```
 
 > [!note]
-> If using manual subscriptions, manage them using [`takeUntilDestroyed`](#angular-16-with-takeuntildestroyed) or with `takeUntil` and a dedicated destruction signal. Prefer `takeUntilDestroyed` if available.
+> If using manual subscriptions, manage them using `takeUntilDestroyed` or with `takeUntil` and a dedicated destruction signal. Prefer `takeUntilDestroyed` if available.
 
 
 ### Use `publishReplay(1)` and `refCount()`
