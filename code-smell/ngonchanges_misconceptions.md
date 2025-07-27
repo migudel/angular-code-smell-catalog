@@ -34,12 +34,19 @@ In general, when you only need to react to reference changes, prefer `ngOnChange
 
 ---
 
-## Non-Compliant Code Example
+## Common Code: Parent Components Triggering Changes
 
-### Misuse of `ngOnChanges`
+These parent components interact with child components that detect input changes using Angular lifecycle hooks like `OnChanges` and `DoCheck`. Two types of changes are demonstrated:
+
+1. **Mutation of an object's internal property (same reference)**
+2. **Replacement of the object or value (reference change)**
+
+### Parent Component: Modifying an Object’s Property Internally
+[parent-change-object-property]:#parent-component-modifying-an-objects-property-internally
+
+In this case, the component's property `user` is passed to the child component as an input. However, only a **property** of the `user` object is modified—**the object reference remains the same**. As a result, Angular’s `ngOnChanges` lifecycle hook in the child component **will not be triggered**, since Angular performs change detection based on reference changes, not internal mutations.
 
 ```ts
-// parent.component.ts
 @Component({
   selector: 'app-parent',
   template: `
@@ -51,14 +58,49 @@ export class ParentComponent {
   user = { name: 'Pepe', age: 25 };
 
   updateAge() {
-    // Internal mutation; ngOnChanges won't detect this
+    // Internal mutation: object reference doesn't change
     this.user.age += 1;
   }
 }
 ```
 
+### Parent Component: Changing Object Reference
+[parent-change-reference]:#parent-component-changing-object-reference
+
+In this case, the component's property `user` is passed to the child component. Instead of mutating a property of the object, the entire `user` object is replaced with a **new reference**. This change **will be detected** by Angular’s `ngOnChanges` lifecycle hook in the child component, as Angular detects input changes through **reference comparison**.
+
 ```ts
-// child.component.ts
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child [name]="userName"></app-child>
+    <button (click)="changeName()">Change Name</button>
+  `
+})
+export class ParentComponent {
+  private original = 'Pepe';
+  private clicks = 0;
+  userName = this.original;
+
+  changeName() {
+    // Reference change: triggers ngOnChanges in the child
+    this.userName = `${this.original}${++this.clicks}`;
+  }
+}
+```
+
+---
+
+## Non-Compliant Code Example
+
+### Misuse of `ngOnChanges`
+
+> [!note]
+> The change in this example originates from the parent defined in [**Parent Component: Modifying an Object’s Property Internally**][parent-change-object-property].
+
+This component incorrectly assumes that Angular will detect changes to a nested object's internal properties. However, since the object reference remains the same, the `ngOnChanges` lifecycle hook is **not triggered**.
+
+```ts
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
@@ -76,30 +118,18 @@ export class ChildComponent implements OnChanges {
 }
 ```
 
+> 🛑 This approach fails to detect internal mutations (e.g., `user.age++`) unless the object reference changes.
+
+---
+
 ### Misuse of `ngDoCheck`
 
-```ts
-// parent.component.ts
-@Component({
-  selector: 'app-parent',
-  template: `
-    <app-child [name]="userName"></app-child>
-    <button (click)="changeName()">Change Name</button>
-  `
-})
-export class ParentComponent {
-  userName = 'Pepe';
+> [!note]
+> The change in this example originates from the parent defined in [**Parent Component: Changing Object Reference**][parent-change-reference].
 
-  changeName() {
-    this.userName = 'Juan';
-  }
-}
-```
+This component uses `ngDoCheck` to manually track primitive input changes. While it technically works, it replicates functionality that `ngOnChanges` already handles more efficiently, making this approach unnecessarily verbose and error-prone.
 
 ```ts
-// child.component.ts
-import { Component, Input, DoCheck } from '@angular/core';
-
 @Component({
   selector: 'app-child',
   template: `<p>{{ name }}</p>`,
@@ -117,28 +147,26 @@ export class ChildComponent implements DoCheck {
 }
 ```
 
+> 🛑 Prefer `ngOnChanges` for simple input comparisons. Reserve `ngDoCheck` for advanced scenarios where Angular's default change detection falls short.
+
 ---
 
 ## Compliant Code Example
 
-### Proper Use of `ngDoCheck`
+### Proper Use of `ngDoCheck` for Object Mutations
+
+> [!note]
+> The change in this example originates from the parent defined in [**Parent Component: Modifying an Object’s Property Internally**][parent-change-object-property].
+
+When you need to detect internal property changes in an object without changing its reference, use `KeyValueDiffers` with `ngDoCheck`.
 
 ```ts
-// child.component.ts
-import { 
-  Component, 
-  Input, 
-  DoCheck,
-  KeyValueDiffers 
-} from '@angular/core';
-
 @Component({
   selector: 'app-child',
   template: `<p>{{ user.name }} - {{ user.age }}</p>`
 })
 export class ChildComponent implements DoCheck {
   @Input() user: { name: string; age: number };
-  
   private differ: any;
 
   constructor(private differs: KeyValueDiffers) {}
@@ -156,12 +184,18 @@ export class ChildComponent implements DoCheck {
 }
 ```
 
-### Proper Use of `ngOnChanges`
+> ✅ This approach correctly detects internal mutations even when the object reference remains unchanged.
+
+---
+
+### Proper Use of `ngOnChanges` for Reference Changes
+
+> [!note]
+> The change in this example originates from the parent defined in [**Parent Component: Changing Object Reference**][parent-change-reference].
+
+This is the recommended and idiomatic use of `ngOnChanges` to detect changes in primitive inputs or object reference replacements.
 
 ```ts
-// child.component.ts
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-
 @Component({
   selector: 'app-child',
   template: `<p>{{ name }}</p>`
@@ -176,6 +210,8 @@ export class ChildComponent implements OnChanges {
   }
 }
 ```
+
+> ✅ Use `ngOnChanges` for clean, reliable detection of changes to primitives or reference-type inputs.
 
 ---
 
