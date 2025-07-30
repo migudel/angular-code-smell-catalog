@@ -92,6 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ### Using `takeUntilDestroyed` (Angular 16+)
 
+This approach leverages the `takeUntilDestroyed` operator, introduced in Angular 16. It abstracts away the need for manual unsubscription by internally linking the subscription lifecycle to the component's `onDestroy` hook.
+
+
 ```ts
 @Component({
   selector: 'app-example',
@@ -112,7 +115,7 @@ export class ExampleComponent implements OnInit {
 
 ### Using the `AsyncPipe` in Templates
 
-Using the `async` pipe directly in the template handles both subscription and unsubscription automatically:
+Using the `async` pipe directly in the template handles both, subscription and unsubscription automatically.
 
 ```ts
 @Component({
@@ -124,6 +127,10 @@ export class ExampleComponent {
 }
 ```
 
+---
+
+## Sources
+
 > [!Note]
 > See also:
 >
@@ -131,10 +138,6 @@ export class ExampleComponent {
 > - [`takeUntilDestroyed` in Angular v16 (Angular Love)][2]
 > - [Angular Docs – takeUntilDestroyed()][3]
 > - [Exploring takeUntilDestroyed (Netanel Basal)][4]
-
----
-
-## Sources
 
 - [https://marcoslooten.com/blog/4-common-angular-mistakes/](https://marcoslooten.com/blog/4-common-angular-mistakes/) (Section 1)
 - [https://alex-klaus.com/angular-code-review/](https://alex-klaus.com/angular-code-review/) (Section 3)

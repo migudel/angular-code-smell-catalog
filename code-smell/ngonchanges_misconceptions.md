@@ -25,11 +25,10 @@ In general, when you only need to react to reference changes, prefer `ngOnChange
 ## Why This Is a Code Smell
 
 - **Violates the single responsibility principle**: Logic is split or duplicated between `ngDoCheck` and `ngOnChanges`, making the code harder to reason about.
-- **Unnecessary complexity**: Using `ngDoCheck` when `ngOnChanges` suffices increases cognitive load and maintenance effort.
+- **Unnecessary complexity** and **underutilization of the framework**: Using `ngDoCheck` when `ngOnChanges` suffices increases cognitive load and maintenance effort. While `ngOnChanges` provides structured `SimpleChanges` automatically, `ngDoCheck` requires custom logic to track changes.
 - **Misunderstanding of `ngOnChanges`**: Many developers incorrectly assume it tracks deep mutations, leading to unexpected bugs and stale UI states.
 - **False sense of reactivity**: Relying solely on `ngOnChanges` may mask deeper issues in state propagation or mutation tracking.
 - **Performance degradation**: `ngDoCheck` executes on every change detection cycle; if misused, it can introduce costly and unnecessary checks.
-- **Underutilization of the framework**: While `ngOnChanges` provides structured `SimpleChanges` automatically, `ngDoCheck` requires custom logic to track changes.
 - **Harder to test and debug**: Logic scattered across lifecycle hooks is more difficult to isolate, test, and debug.
 
 ---
@@ -89,8 +88,6 @@ export class ParentComponent {
 }
 ```
 
----
-
 ## Non-Compliant Code Example
 
 ### Misuse of `ngOnChanges`
@@ -119,8 +116,6 @@ export class ChildComponent implements OnChanges {
 ```
 
 > 🛑 This approach fails to detect internal mutations (e.g., `user.age++`) unless the object reference changes.
-
----
 
 ### Misuse of `ngDoCheck`
 
@@ -185,8 +180,6 @@ export class ChildComponent implements DoCheck {
 ```
 
 > ✅ This approach correctly detects internal mutations even when the object reference remains unchanged.
-
----
 
 ### Proper Use of `ngOnChanges` for Reference Changes
 

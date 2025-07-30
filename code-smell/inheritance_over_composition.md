@@ -64,7 +64,7 @@ export class BaseForm {
 ```ts
 @Component({
   selector: 'app-newsletter',
-  templateUrl: './newsletter.component.html',
+  templateUrl: './share.component.html',
 })
 export class NewsletterComponent extends BaseForm {
   constructor(public fb: FormBuilder) {
@@ -76,7 +76,7 @@ export class NewsletterComponent extends BaseForm {
 ```ts
 @Component({
   selector: 'app-recovery-password',
-  templateUrl: './recovery-password.component.html',
+  templateUrl: './share.component.html',
 })
 export class RecoveryPasswordComponent extends BaseForm {
   constructor(public fb: FormBuilder) {
@@ -93,7 +93,7 @@ In this example, `NewsletterComponent` and `RecoveryPasswordComponent` inherit a
 
 To achieve greater flexibility and adhere to the **Dependency Inversion Principle** (DIP), we can define an abstract class or interface that establishes a contract. Any service implementing this contract can then be injected interchangeably without modifying the consumer component. This pattern decouples the component from concrete implementations, making the application more maintainable and testable.
 
-> **Abstract Contract**
+### Abstract Contract
 
 ```ts
 export abstract class AbstractFormWrapper {
@@ -103,7 +103,7 @@ export abstract class AbstractFormWrapper {
 }
 ```
 
-> **Concrete Implementation 1**
+### Concrete Implementation 1 (`FormWrapperService`)
 
 ```ts
 @Injectable()
@@ -128,7 +128,7 @@ export class FormWrapperService implements AbstractFormWrapper {
 }
 ```
 
-> **Concrete Implementation 2**
+### Concrete Implementation 2 (`FormWrapperTrackingService`)
 
 ```ts
 @Injectable()
@@ -164,9 +164,9 @@ export class FormWrapperTrackingService implements AbstractFormWrapper {
 }
 ```
 
-> **Component Usage with Dependency Injection**
-> 
-> By providing AbstractFormWrapper in the component and choosing a concrete implementation (FormWrapperService or FormWrapperTrackingService), we can switch behavior without modifying component logic.
+### Component Usage with Dependency Injection
+
+By providing AbstractFormWrapper in the component and choosing a concrete implementation (FormWrapperService or FormWrapperTrackingService), we can switch behavior without modifying component logic.
 
 ```ts
 @Component({

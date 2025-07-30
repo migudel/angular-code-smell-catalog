@@ -20,8 +20,6 @@ By doing so, developers break Angular's declarative paradigm, increase maintenan
 ## Non-Compliant Code Example
 
 ```ts
-import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-pipe-demonstration',
   template: `<form>
@@ -58,8 +56,6 @@ export default class FileSizeFormatterPipe implements PipeTransform {
 ```
 
 ```ts
-import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-pipe-demonstration',
   template: `<form>

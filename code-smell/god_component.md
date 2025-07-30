@@ -11,13 +11,16 @@ A **God Component** in Angular is one that takes on too many responsibilities. I
 ## Why This Is a Code Smell
 
 - **Limited reusability**: When a component handles multiple concerns, its logic becomes harder to extract and reuse across the application.
-- **Complicated testing**: Testing a component with many responsibilities requires mocking or stubbing many unrelated behaviors.
+- **Complicated testing**: Testing a component with many responsibilities requires mocking or stubbing many unrelated behaviors. And too much code.
 - **Poor maintainability**: Large, monolithic components are harder to read, navigate, and safely refactor.
 - **Violation of the Single Responsibility Principle**: Mixing unrelated responsibilities in a single component leads to fragile, error-prone code.
 - **Tight coupling between layers**: Business logic and UI are intertwined, reducing flexibility and separation of concerns.
 - **Increased risk of hidden bugs**: Oversized components can contain subtle issues that are harder to isolate and fix.
 
 ---
+> [!warning]
+> These examples are simplified and intentionally crafted for demonstration purposes. In real-world applications, this kind of code smell can be more complex and less obvious.  
+> In this case, to illustrate the issue of excessive responsibility, the component takes on the role of a service by directly handling data retrieval and making API calls.
 
 ## Non-Compliant Code Example
 
@@ -63,8 +66,9 @@ export class DashboardComponent implements OnInit {
 
 ## Compliant Code Example
 
+### Service
+
 ```ts
-// user.service.ts
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpClient) {}
@@ -74,9 +78,9 @@ export class UserService {
   }
 }
 ```
+### Component using the services
 
 ```ts
-// dashboard.component.ts
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

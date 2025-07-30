@@ -22,6 +22,9 @@ To improve clarity and maintainability, it's recommended to:
 
 ---
 
+> [!note]
+> These examples are simplified, but the main idea is to avoid placing as much logic as possible in the template and instead move it into the component.
+
 ## Non-Compliant Code Example
 
 ```ts

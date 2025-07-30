@@ -1,19 +1,19 @@
 # Subscribe in Constructor
 
+> [!note]
+> If the subscription is only needed for rendering data, consider removing it entirely and using the `async` pipe instead.\
+> See also: [Manual subscriptions](manual_subscriptions.md)
+
 ## Description
 
 This code smell occurs when a subscription is made directly inside the constructor of a component, instead of using the `ngOnInit` lifecycle hook. While this may seem straightforward, it breaks Angular’s lifecycle conventions and can lead to issues in maintainability, testability, and resource management.
 
 Best practices recommend keeping constructors clean and free from logic. Any initialization involving service calls, subscriptions, or side effects should be handled within lifecycle hooks such as `ngOnInit`.
 
-> [!note]
-> If the subscription is only needed for rendering data, consider removing it entirely and using the `async` pipe instead.
-> See also: [Manual subscriptions](manual_subscriptions.md)
-
 ## Why This Is a Code Smell
 
 - **Violates the single responsibility principle**: The constructor should only handle basic dependency injection and not contain operational logic.
-- **Hinders testability**: Automatically triggering subscriptions on instantiation introduces side effects that complicate unit tests.
+- **Hinders testability**: Automatically triggering subscriptions on instantiation introduces side effects that could complicate unit tests.
 - **Lifecycle misalignment**: Bypassing Angular’s lifecycle hooks can result in errors when interacting with elements that are not yet initialized.
 - **Increased risk of memory leaks**: Subscriptions made in constructors are more prone to being forgotten or mismanaged, especially without a structured cleanup strategy like `ngOnDestroy`.
 

@@ -1,14 +1,5 @@
 # Not Using Lazy Loading
 
-> [!Note]
-> This code smell is already covered by modern Angular best practices and tooling.
-> See also:
->
-> - [Angular v17: Lazy Loading NgModules][1]
-> - [Angular Migration Guide: Route Lazy Loading][2]
-> - [Routing in Angular, Routing between modules, Lazy loading in Angular][3]
-> - [Lazy Load Standalone Components with "loadComponent"][4]
-
 ## Description
 
 Lazy loading is a design pattern that delays the import and initialization of modules or standalone components, directives, or pipes in Angular until the user navigates to the route where they are needed.
@@ -93,7 +84,8 @@ const routes: Routes = [
       .then((m) => m.SHOPS_ROUTES),
   }
 ];
-
+```
+```ts
 // Product routes
 const PRODUCTS_ROUTES: Routes = [
   {
@@ -106,6 +98,8 @@ const PRODUCTS_ROUTES: Routes = [
   },
 ];
 
+```
+```ts
 // Shop routes
 const SHOPS_ROUTES: Routes = [
   {
@@ -125,6 +119,13 @@ Lazy loading is achieved by using the `Route.loadComponent` and `Route.loadChild
 ---
 
 ## Sources
+> [!Note]
+> See also:
+>
+> - [Angular v17: Lazy Loading NgModules][1]
+> - [Angular Migration Guide: Route Lazy Loading][2]
+> - [Routing in Angular, Routing between modules, Lazy loading in Angular][3]
+> - [Lazy Load Standalone Components with "loadComponent"][4]
 
 - [https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j](https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j) (7th sin: *Eagerly loading all features*)
 - [https://javascript-conference.com/blog/angular-code-smells/](https://javascript-conference.com/blog/angular-code-smells/) (Section 4: *Loading Speed*)

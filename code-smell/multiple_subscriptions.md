@@ -1,3 +1,6 @@
+>[!caution]
+> Pendiente de actualizar shareReplay a share
+
 # Multiple Subscriptions
 
 ## Description
@@ -115,7 +118,7 @@ pageTitle = this.route.params.pipe(
 
 ```html
 <h1>{{ pageTitle | async }}</h1>
-<p>You are viewing {{ pageTitle | async }}.</p>
+<p>You are viewing {{ pageTitle | async }}.</p>echo
 ```
 
 ---

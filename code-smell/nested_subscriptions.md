@@ -12,7 +12,7 @@
 
 ## Why This Is a Code Smell
 
-- **Reduced readability and maintainability**: Nesting subscriptions leads to callback pyramids, making control flow difficult to follow and refactor.
+- **Reduced readability and maintainability**: Nesting subscriptions leads to callback pyramids (*callback hell*), making control flow difficult to follow and refactor.
 - **Poor error and lifecycle handling**: Errors and unsubscriptions are harder to manage when subscriptions are embedded within others.
 - **Violation of reactive principles**: Ignores RxJS’s declarative and composable model, undermining its idiomatic usage.
 - **Increased coupling**: Tight binding of async operations reduces modularity and increases fragility.
@@ -23,15 +23,18 @@
 
 ## Non-Compliant Code Example
 
+### Consuming the first subscription (data dependency)
+
 ```ts
-// Consuming the first subscription (data dependency)
 this.userService.getUser().subscribe(user => {
   this.orderService.getOrders(user.id).subscribe(orders => {
     this.orders = orders;
   });
 });
+```
 
-// Combination of the 2 subscriptions
+### Combination of the 2 subscriptions
+```ts
 firstObservable$.pipe(
   take(1)
 )
@@ -49,15 +52,18 @@ firstObservable$.pipe(
 
 ## Compliant Code Example
 
+### Consuming the first subscription (data dependency)
+
 ```ts
-// Consuming the first subscription (data dependency)
 this.userService.getUser().pipe(
   switchMap(user => this.orderService.getOrders(user.id))
 ).subscribe(orders => {
   this.orders = orders;
 });
+```
 
-// Combination of the 2 subscriptions
+### Combination of the 2 subscriptions
+```ts
 firstObservable$.pipe(
   withLatestFrom(secondObservable$),
   first()

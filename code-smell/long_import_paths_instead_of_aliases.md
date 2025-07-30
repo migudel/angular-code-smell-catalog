@@ -28,7 +28,7 @@ import { environment } from '../../../../environments/environment';
 ## Compliant Code Example
 
 ```ts
-// tsconfig.json or tsconfig.base.json
+// tsconfig.json or derivative files like tsconfig.base.json, etc.
 {
   "compilerOptions": {
     "baseUrl": "./",

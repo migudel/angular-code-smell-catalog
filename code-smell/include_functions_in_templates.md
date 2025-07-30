@@ -1,5 +1,8 @@
 # Include Functions in Templates
 
+> [!NOTE]
+> There is an `@angular-eslint` rule related to this smell: [`no-pipe-impure`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-pipe-impure.md), which ensures that custom pipes are pure, although it does not fully address this issue.
+
 ## Description
 
 This code smell appears when functions are called directly inside Angular templates —whether in interpolation expressions (`{{ }}`) or structural directives like `*ngIf` or `*ngFor`.
@@ -12,9 +15,6 @@ To avoid this, it's recommended to:
 
 - Precompute values inside the component class and bind to variables instead.
 - Use custom **pure pipes** to perform declarative transformations in the view.
-
-> [!NOTE]
-> There is an `@angular-eslint` rule related to this smell: [`no-pipe-impure`](https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-pipe-impure.md), which ensures that custom pipes are pure, although it does not fully address this issue.
 
 ## Why This Is a Code Smell
 

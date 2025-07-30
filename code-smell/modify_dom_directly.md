@@ -11,12 +11,11 @@ Instead of directly manipulating the DOM, Angular encourages the use of:
 - **Template bindings** (`[hidden]`, `[style]`, `[class]`, `[attr.disabled]`, `[innerHTML]`, etc.)
 - **Structural and attribute directives** (`*ngIf`, `*ngFor`, `ngClass`, `ngStyle`)
 - **Custom directives** for more advanced behavior
+- `ElementRef` should only be used in highly controlled and fully sanitized contexts.
 - **`Renderer2`** for safe and decoupled DOM manipulation
 
 > [!warning]
 > This last option is provided by Angular and had one property ([`nativeElement`](https://angular.dev/api/core/ElementRef)) which it is not recommended. Direct DOM manipulation should only be considered if it is absolutely necessary. Before applying it, carefully reconsider other safer alternatives. If you must use it, it is strongly recommended to combine it with DomSanitizer to ensure maximum security.
-
-- ElementRef should only be used in highly controlled and fully sanitized contexts.
 
 ## Why This Is a Code Smell
 

@@ -43,8 +43,9 @@ export class ComponentB {
 
 ### RxJS
 
+#### RxJS Store service
+
 ```ts
-// user-store.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
@@ -64,8 +65,9 @@ export class UserStore {
 }
 ```
 
+#### Component A using RxJS
+
 ```ts
-// component-a.component.ts
 import { Component } from '@angular/core';
 import { UserStore } from './user-store.service';
 
@@ -79,8 +81,9 @@ export class ComponentA {
 }
 ```
 
+#### Component B using RxJS
+
 ```ts
-// component-b.component.ts
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './user.model';
@@ -100,18 +103,22 @@ export class ComponentB {
 }
 ```
 
-### [NgRx][use_ngrx]
+### NgRx
+> [!tip]
+> For a more complete understanding, read the [article][use_ngrx] from which this example is taken.
+
+#### NgRx Action
 
 ```ts
-// user.actions.ts
 import { createAction, props } from '@ngrx/store';
 import { User } from './user.model';
 
 export const login = createAction('[User] Login', props<{ user: User }>());
 ```
 
+#### NgRx Reducer
+
 ```ts
-// user.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import { login } from './user.actions';
 import { User } from './user.model';
@@ -128,8 +135,9 @@ export const userReducer = createReducer(
 );
 ```
 
+#### NgRx Selector
+
 ```ts
-// user.selectors.ts
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { UserState } from './user.reducer';
 
@@ -141,8 +149,9 @@ export const selectUser = createSelector(
 );
 ```
 
+#### Component A using NgRx
+
 ```ts
-// component-a.component.ts
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { login } from './user.actions';
@@ -159,8 +168,9 @@ export class ComponentA {
 }
 ```
 
+#### Component B using NgRx
+
 ```ts
-// component-b.component.ts
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -183,10 +193,15 @@ export class ComponentB {
 }
 ```
 
-### [Akita][use_akita]
+### Akita
+
+> [!tip]
+> For a more complete understanding, read the [article][use_akita] from which this example is taken.
+
+
+#### Akita Entity and Store definitions
 
 ```ts
-// user.store.ts
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
 import { User } from './user.model';
@@ -202,8 +217,9 @@ export class UserStore extends EntityStore<UserState, User> {
 }
 ```
 
+#### Akita Query definition
+
 ```ts
-// user.query.ts
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { UserStore, UserState } from './user.store';
@@ -216,8 +232,9 @@ export class UserQuery extends QueryEntity<UserState> {
 }
 ```
 
+#### Akita service
+
 ```ts
-// user.service.ts
 import { Injectable } from '@angular/core';
 import { UserStore } from './user.store';
 import { UserQuery } from './user.query';
@@ -237,8 +254,9 @@ export class UserService {
 }
 ```
 
+#### Component A using Akita
+
 ```ts
-// component-a.component.ts
 import { Component } from '@angular/core';
 import { UserStore } from './user.store';
 
@@ -252,8 +270,9 @@ export class ComponentA {
 }
 ```
 
+#### Component B using Akita
+
 ```ts
-// component-b.component.ts
 import { Component } from '@angular/core';
 import { UserQuery } from './user.query';
 import { Observable } from 'rxjs';
