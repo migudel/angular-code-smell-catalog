@@ -91,7 +91,8 @@ In this example, `NewsletterComponent` and `RecoveryPasswordComponent` inherit a
 
 ## Compliant Code Example
 
-To achieve greater flexibility and adhere to the **Dependency Inversion Principle** (DIP), we can define an abstract class or interface that establishes a contract. Any service implementing this contract can then be injected interchangeably without modifying the consumer component. This pattern decouples the component from concrete implementations, making the application more maintainable and testable.
+To achieve greater flexibility and adhere to the **Dependency Inversion Principle** (DIP), we can define an abstract class or interface that establishes a contract. Any service implementing this contract can then be injected interchangeably without modifying the consumer component.  
+This pattern decouples the component from concrete implementations, making the application more maintainable and testable.
 
 ### Abstract Contract
 
@@ -166,7 +167,7 @@ export class FormWrapperTrackingService implements AbstractFormWrapper {
 
 ### Component Usage with Dependency Injection
 
-By providing AbstractFormWrapper in the component and choosing a concrete implementation (FormWrapperService or FormWrapperTrackingService), we can switch behavior without modifying component logic.
+By providing `AbstractFormWrapper` in the component and choosing a concrete implementation (`FormWrapperService` or `FormWrapperTrackingService`), we can switch behavior without modifying component logic.
 
 ```ts
 @Component({

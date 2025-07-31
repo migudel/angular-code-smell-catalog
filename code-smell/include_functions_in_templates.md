@@ -21,7 +21,8 @@ To avoid this, it's recommended to:
 - **Performance degradation:** Functions inside templates are re-evaluated multiple times during change detection, leading to CPU overuse.
 - **Hidden inefficiencies:** These issues are difficult to identify by inspecting only the HTML, as the performance cost isn't visually apparent.
 - **Reduced readability:** Embedding complex expressions in templates makes them harder to understand and maintain.
-- **Testing complications:** Since you cannot control how many times the function is executed, unit testing becomes less predictable and more brittle.
+- **Testing complications:** When logic is placed in the template, tests must target the UI rather than the component’s logic, making them more complex and harder to maintain.
+
 
 ---
 

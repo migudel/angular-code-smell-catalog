@@ -33,7 +33,6 @@ export class HeroComponent {}
 ```ts
 @NgModule({
   declarations: [HeroComponent],
-  exports: []
 })
 export class HeroesModule {}
 ```
@@ -41,7 +40,6 @@ export class HeroesModule {}
 ```ts
 @NgModule({
   declarations: [HeroComponent],
-  exports: []
 })
 export class DashboardModule {}
 ```

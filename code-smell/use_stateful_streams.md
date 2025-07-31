@@ -34,7 +34,7 @@ this.route.params.pipe(
   switchMap(() => otherService.byCustomerAndResult(this.customer, this.result)),
 ).subscribe(combinedResult => {
   this.result = combinedResult;
-  this.view = moreComplexComutation(this.customer, this.code, combinedResult);
+  this.view = moreComplexCommutation(this.customer, this.code, combinedResult);
 });
 ```
 

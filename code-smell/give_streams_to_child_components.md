@@ -50,7 +50,9 @@ export class ChildComponent {
 
 ```ts
 @Component({ 
-  template: '<child-component [users]="users$ | async"></child-component>'
+  template: `
+  <child-component [users]="users$ | async" />
+  `
 })
 export class ParentComponent {
   users$ = this.userService.getUsers();

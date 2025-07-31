@@ -60,16 +60,21 @@ ngAfterViewInit(): void {
 export class TestComponent {
   isDisabled = true;
   isHighlighted = true;
-  htmlContent = this.sanitizer.bypassSecurityTrustHtml('<p>Hello</p>');
-  // The following code is not recommended if it is not absolutely 
-  // necessary but is shown to correspond to the non-compliant example
+  htmlContent = this.sanitizer
+    .bypassSecurityTrustHtml('<p>Hello</p>');
+  // The following code is not recommended if it is not
+  // absolutely necessary but is shown to correspond to
+  // the non-compliant example
   constructor(private sanitizer: DomSanitizer) {}
 }
 ```
 
 ```html
 <!-- Declarative and safe -->
-<input [disabled]="isDisabled" [ngClass]="{ 'highlighted': isHighlighted }" />
+<input
+  [disabled]="isDisabled"
+  [ngClass]="{ 'highlighted': isHighlighted }"
+  />
 <div [innerHTML]="htmlContent"></div>
 ```
 
@@ -102,8 +107,14 @@ export class ButtonComponent implements AfterViewInit {
   constructor(private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
-    this.renderer.setAttribute(this.buttonRef.nativeElement, 'disabled', 'true');
-    this.renderer.addClass(this.buttonRef.nativeElement, 'highlighted');
+    this.renderer.setAttribute(
+      this.buttonRef.nativeElement, 
+      'disabled', 'true'
+      );
+    this.renderer.addClass(
+      this.buttonRef.nativeElement, 
+      'highlighted'
+      );
   }
 }
 ```

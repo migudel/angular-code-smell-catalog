@@ -131,6 +131,13 @@ export class HomeComponent implements OnInit {
 
 ## Sources
 
+- [https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j](https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j) (3rd sin)
+- [https://angular-enterprise.com/en/ngpost/courses/bad-practices/](https://angular-enterprise.com/en/ngpost/courses/bad-practices/) (Point 1)
+- [https://levelup.gitconnected.com/refactoring-angular-applications-be18a7ee65cb](https://levelup.gitconnected.com/refactoring-angular-applications-be18a7ee65cb) (Section 1.2)
+- [https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/](https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/) (Section 12)
+- [https://roshancloudarchitect.me/identifying-and-eliminating-code-smells-in-angular-micro-frontends-advanced-techniques-for-6f07a781f93d](https://roshancloudarchitect.me/identifying-and-eliminating-code-smells-in-angular-micro-frontends-advanced-techniques-for-6f07a781f93d) (Section 3)
+- [https://zydesoft.com/must-know-clean-code-principles-in-angular/](https://zydesoft.com/must-know-clean-code-principles-in-angular/) (Sections 7 and 12)
+
 > [!Note]
 > See also:
 >
@@ -139,13 +146,6 @@ export class HomeComponent implements OnInit {
 > - [Clean Code Principles in Angular][3]
 > - [Stackademic – Smart/Dumb Components in Angular][4]
 > - [Composable & Pure Components (Jack the Nomad)][5]
-
-- [https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j](https://dev.to/this-is-angular/7-deadly-sins-of-angular-1n2j) (3rd sin)
-- [https://angular-enterprise.com/en/ngpost/courses/bad-practices/](https://angular-enterprise.com/en/ngpost/courses/bad-practices/) (Point 1)
-- [https://levelup.gitconnected.com/refactoring-angular-applications-be18a7ee65cb](https://levelup.gitconnected.com/refactoring-angular-applications-be18a7ee65cb) (Section 1.2)
-- [https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/](https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/) (Section 12)
-- [https://roshancloudarchitect.me/identifying-and-eliminating-code-smells-in-angular-micro-frontends-advanced-techniques-for-6f07a781f93d](https://roshancloudarchitect.me/identifying-and-eliminating-code-smells-in-angular-micro-frontends-advanced-techniques-for-6f07a781f93d) (Section 3)
-- [https://zydesoft.com/must-know-clean-code-principles-in-angular/](https://zydesoft.com/must-know-clean-code-principles-in-angular/) (Sections 7 and 12)
 
 [1]: https://blog.angular-university.io/angular-2-smart-components-vs-presentation-components-whats-the-difference-when-to-use-each-and-why/
 [2]: https://tejas-variya.medium.com/smart-vs-dumb-components-in-angular-the-secret-to-scalable-apps-49c2f49103eb

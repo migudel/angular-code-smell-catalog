@@ -1,6 +1,3 @@
->[!caution]
-> Pendiente de actualizar shareReplay a share
-
 # Multiple Subscriptions
 
 ## Description
@@ -58,67 +55,68 @@ export class JourneyListItemComponent {
 ---
 
 ## Compliant Code Example
+> [!warning]
+> The solution presented in the source [Blog eyas][1], a 2018 article, (`publishReplay(n) + refCount()`) actually is deprecated since RxJS v7 and will disappear in the upcoming v8.  
+> Instead, they recommend using [`share`](https://rxjs.dev/api/operators/share) to share the subscription ref or [`shareReplay`](https://rxjs.dev/api/operators/shareReplay) to cache subscription value.
 
+### Sharing the Subscription
+
+This approach converts a **cold observable** (such as an HTTP request) into a **hot observable**, sharing the subscription to the original source.
+
+```ts
+pageTitle = this.route.params.pipe(
+  map(params => params["id"]),
+  mergeMap(id =>
+    this.http.get(`api/pages/${id}/title`, { responseType: "text" })
+  ),
+  share()
+);
+```
+
+In this example, only **one subscription** is made to the source observable:
+
+```html
+<h1>{{ pageTitle | async }}</h1>
+<p>You are viewing {{ pageTitle | async }}.</p>
+```
+
+> [!warning]
+> This approach only shares emitted values with **already subscribed subscribers**.
+> If a new subscriber subscribes after a value has been emitted, it will **not receive the previous value** and must wait for the next emission.
+
+### Caching the Subscription Value
+
+To address the limitation of the previous approach, use `shareReplay({ refCount, bufferSize })`, the modern replacement for the old `publishReplay(1).refCount()` pattern. This approach caches the last `bufferSize` value(s) and replays them to new subscribers that subscribe after the value has been emitted.
+
+```ts
+// Deprecated (older RxJS patterns)
+journey$ = this.journeyId$.pipe(
+  distinctUntilChanged(),
+  switchMap(id => this.journeyService.getJourney(id)),
+  publishReplay(1),
+  refCount()
+);
+
+// Recommended (RxJS 7+)
+journey$ = this.journeyId$.pipe(
+  distinctUntilChanged(),
+  switchMap(id => this.journeyService.getJourney(id)),
+  shareReplay({
+    bufferSize: 1,
+    refCount: true
+  })
+);
+
+```
 ### Use a single subscription in the template
+
+Group subscriptions in the template by declaring them once as a template variable. This allows you to work with the resolved value directly, rather than treating it as a stream.
 
 ```html
 <ng-container *ngIf="journey$ | async as journey">
   <h1>{{ journey.title }}</h1>
   <p>{{ journey.description }}</p>
 </ng-container>
-```
-
-This way, the subscription result is stored in a local variable, and the `Observable` is only subscribed to once.
-
-### Use `shareReplay(1)` and `distinctUntilChanged()`
-
-```ts
-@Component({
-  selector: 'journey-list-item',
-  templateUrl: './journey-list-item.component.html',
-  styleUrls: ['./journey-list-item.component.scss'],
-})
-export class JourneyListItemComponent implements OnDestroy {
-  @Input()
-  set journeyId(value: number) {
-    this.journeyId$.next(value);
-  }
-
-  @Output() addAction = new EventEmitter<void>();
-
-  private readonly journeyId$ = new BehaviorSubject<Journey | undefined>(undefined);
-  journey$ = this.journeyId$.pipe(
-    distinctUntilChanged(),
-    switchMap((id) => this.journeyService.getJourney(id)),
-    shareReplay(1) // Replays to multiple subscribers without re-fetching
-  );
-}
-```
-
-> [!note]
-> If using manual subscriptions, manage them using `takeUntilDestroyed` or with `takeUntil` and a dedicated destruction signal. Prefer `takeUntilDestroyed` if available.
-
-
-### Use `publishReplay(1)` and `refCount()`
-> [!warning]
-> This solution was found in the source [Blog eyas][1], a 2018 article. The solution they propose is deprecated since RxJS v7 and will disappear in the upcoming v8. Instead, they recommend using [`share`](https://rxjs.dev/api/operators/share).
-
-This approach caches the result for reuse across multiple subscribers, avoiding redundant operations.
-
-```ts
-pageTitle = this.route.params.pipe(
-  map(params => params["id"]),
-  flatMap(id =>
-    this.http.get(`api/pages/${id}/title`, { responseType: "text" })
-  ),
-  publishReplay(1),
-  refCount()
-);
-```
-
-```html
-<h1>{{ pageTitle | async }}</h1>
-<p>You are viewing {{ pageTitle | async }}.</p>echo
 ```
 
 ---

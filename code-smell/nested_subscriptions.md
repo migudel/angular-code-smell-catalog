@@ -8,7 +8,10 @@
 
 ## Description
 
-**Nested subscriptions** occur when one observable is subscribed to inside the callback of another subscription in Angular code. This results in a deeply nested, pyramid-shaped structure that is difficult to read, maintain, and test. It also disregards the powerful composition model of reactive programming with RxJS.
+**Nested subscriptions** occur when one observable is subscribed to inside the callback of another subscription in Angular code.\
+This leads to the so-called *callback hell* —a deeply nested, pyramid-shaped structure that is hard to read, maintain, and test.\
+Moreover, it bypasses RxJS’s powerful composition model, where operators like `switchMap`, `mergeMap`, `concatMap`, and `exhaustMap` should be used instead to flatten and compose streams declaratively.
+
 
 ## Why This Is a Code Smell
 

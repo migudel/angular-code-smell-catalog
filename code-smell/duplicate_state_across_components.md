@@ -4,7 +4,7 @@
 
 This code smell occurs when multiple components maintain their own local copies of the same state or data, instead of relying on a single source of truth. While duplicating state may seem like a quick solution, it becomes increasingly unsustainable as the application grows, leading to inconsistencies, redundancy, and scattered logic.
 
-Common examples include duplicating user data, session status, active filters, or search results across components. This approach violates the DRY (Don't Repeat Yourself) principle and complicates system maintenance.
+Common examples include duplicating user data, session status, active filters, or search results across components. This approach violates the **DRY** (Don't Repeat Yourself) principle and complicates system maintenance.
 
 The most appropriate way to address this issue is to adopt a centralized and reactive state management strategy. The main alternatives are:
 
