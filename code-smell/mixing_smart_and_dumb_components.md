@@ -2,7 +2,7 @@
 
 ## Description
 
-This code smell occurs when a component mixes business logic (such as data retrieval, transformation, and distribution) with presentation logic and view management. This usually indicates a flawed design or misuse of Angular's component model.
+This code smell occurs when a component mixes business logic (such as data retrieval —via services-, transformation, and distribution) with presentation logic and view management. This usually indicates a flawed design or misuse of Angular's component model.
 
 The **Smart (container)** and **Dumb (presentational)** component pattern advocates for a clear separation of concerns:
 
@@ -142,14 +142,14 @@ export class HomeComponent implements OnInit {
 > See also:
 >
 > - [Angular University – Smart vs Presentational Components][1]
+> - [Scalable Apps with Smart vs Dumb Components][2]
 > - [Clean Code Principles in Angular][3]
 > - [Stackademic – Smart/Dumb Components in Angular][4]
 > - [Composable & Pure Components (Jack the Nomad)][5]
-> - [Scalable Apps with Smart vs Dumb Components][6]
 
 [1]: https://blog.angular-university.io/angular-2-smart-components-vs-presentation-components-whats-the-difference-when-to-use-each-and-why/
+[2]: https://tejas-variya.medium.com/smart-vs-dumb-components-in-angular-the-secret-to-scalable-apps-49c2f49103eb
 [3]: https://zydesoft.com/must-know-clean-code-principles-in-angular/
 [4]: https://blog.stackademic.com/angular-smart-dumb-components-118f557b667c
 [5]: https://jackthenomad.com/how-to-write-good-composable-and-pure-components-in-angular-2-1756945c0f5b
-[6]: https://tejas-variya.medium.com/smart-vs-dumb-components-in-angular-the-secret-to-scalable-apps-49c2f49103eb
 

@@ -8,11 +8,14 @@
 
 ## Description
 
-**Nested subscriptions** occur when one observable is subscribed to inside the callback of another subscription in Angular code. This results in a deeply nested, pyramid-shaped structure that is difficult to read, maintain, and test. It also disregards the powerful composition model of reactive programming with RxJS.
+**Nested subscriptions** occur when one observable is subscribed to inside the callback of another subscription in Angular code.\
+This leads to the so-called *callback hell* —a deeply nested, pyramid-shaped structure that is hard to read, maintain, and test.\
+Moreover, it bypasses RxJS’s powerful composition model, where operators like `switchMap`, `mergeMap`, `concatMap`, and `exhaustMap` should be used instead to flatten and compose streams declaratively.
+
 
 ## Why This Is a Code Smell
 
-- **Reduced readability and maintainability**: Nesting subscriptions leads to callback pyramids, making control flow difficult to follow and refactor.
+- **Reduced readability and maintainability**: Nesting subscriptions leads to callback pyramids (*callback hell*), making control flow difficult to follow and refactor.
 - **Poor error and lifecycle handling**: Errors and unsubscriptions are harder to manage when subscriptions are embedded within others.
 - **Violation of reactive principles**: Ignores RxJS’s declarative and composable model, undermining its idiomatic usage.
 - **Increased coupling**: Tight binding of async operations reduces modularity and increases fragility.
@@ -23,15 +26,18 @@
 
 ## Non-Compliant Code Example
 
+### Consuming the first subscription (data dependency)
+
 ```ts
-// Consuming the first subscription (data dependency)
 this.userService.getUser().subscribe(user => {
   this.orderService.getOrders(user.id).subscribe(orders => {
     this.orders = orders;
   });
 });
+```
 
-// Combination of the 2 subscriptions
+### Combination of the 2 subscriptions
+```ts
 firstObservable$.pipe(
   take(1)
 )
@@ -49,15 +55,18 @@ firstObservable$.pipe(
 
 ## Compliant Code Example
 
+### Consuming the first subscription (data dependency)
+
 ```ts
-// Consuming the first subscription (data dependency)
 this.userService.getUser().pipe(
   switchMap(user => this.orderService.getOrders(user.id))
 ).subscribe(orders => {
   this.orders = orders;
 });
+```
 
-// Combination of the 2 subscriptions
+### Combination of the 2 subscriptions
+```ts
 firstObservable$.pipe(
   withLatestFrom(secondObservable$),
   first()

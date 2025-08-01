@@ -2,13 +2,15 @@
 
 ## Description
 
-This code smell occurs when subscriptions are managed manually inside Angular components using `.subscribe()` instead of leveraging the `async` pipe in the template whenever possible —specifically when the observable's value is only used for presentation and its lifecycle can naturally align with the component's.
+This code smell occurs when subscriptions are managed manually inside Angular components using `.subscribe()` instead of leveraging the `async` pipe in the template, especially when the observable’s value is only needed for presentation and its lifecycle naturally aligns with the component’s.
 
-. Although there are valid use cases for manual subscriptions (e.g., cold observables or one-time HTTP calls), relying on them by default introduces risks.
+While manual subscriptions can be valid in certain scenarios (e.g., cold observables, side effects, or one-off HTTP requests), treating them as code smells and refactoring them blindly can introduce risks — particularly around performance or behavior. It’s important to carefully assess trade-offs before making changes.
 
-Manually subscribing transfers the responsibility of unsubscribing to the developer, which can lead to memory leaks and lifecycle issues if not handled properly. See also: [Not Unsubscribing Subscriptions](not_unsubscribing_subscriptions.md).
+The key drawback is that manual subscriptions shift the responsibility of unsubscribing to the developer, which increases the risk of memory leaks and lifecycle issues if not handled properly.  
+See also: [Not Unsubscribing Subscriptions](not_unsubscribing_subscriptions.md).
 
-The `async` pipe abstracts away subscription and unsubscription logic by automatically subscribing to an observable and cleaning it up when the component is destroyed. This results in cleaner, safer, and more maintainable code.
+The `async` pipe abstracts away subscription management by automatically subscribing to an observable and disposing of it when the component is destroyed. This leads to cleaner, safer, and more maintainable code.
+
 
 ## Why This Is a Code Smell
 

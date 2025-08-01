@@ -33,7 +33,6 @@ Instead, it's recommended to use **composition**: create reusable components or 
 ### Base and Inherited Components
 
 ```ts
-// base-form.ts
 import { FormBuilder, Validators } from '@angular/forms';
 
 export class BaseForm {
@@ -63,10 +62,9 @@ export class BaseForm {
 ```
 
 ```ts
-// newsletter.component.ts
 @Component({
   selector: 'app-newsletter',
-  templateUrl: './newsletter.component.html',
+  templateUrl: './share.component.html',
 })
 export class NewsletterComponent extends BaseForm {
   constructor(public fb: FormBuilder) {
@@ -76,10 +74,9 @@ export class NewsletterComponent extends BaseForm {
 ```
 
 ```ts
-// recovery-password.component.ts
 @Component({
   selector: 'app-recovery-password',
-  templateUrl: './recovery-password.component.html',
+  templateUrl: './share.component.html',
 })
 export class RecoveryPasswordComponent extends BaseForm {
   constructor(public fb: FormBuilder) {
@@ -94,12 +91,25 @@ In this example, `NewsletterComponent` and `RecoveryPasswordComponent` inherit a
 
 ## Compliant Code Example
 
-### Reusable Service with Shared Logic
+To achieve greater flexibility and adhere to the **Dependency Inversion Principle** (DIP), we can define an abstract class or interface that establishes a contract. Any service implementing this contract can then be injected interchangeably without modifying the consumer component.  
+This pattern decouples the component from concrete implementations, making the application more maintainable and testable.
+
+### Abstract Contract
+
+```ts
+export abstract class AbstractFormWrapper {
+  abstract myform: FormGroup;
+  abstract errors: string[];
+  abstract save(form: FormGroup): boolean;
+}
+```
+
+### Concrete Implementation 1 (`FormWrapperService`)
 
 ```ts
 @Injectable()
-export class FormWrapperService {
-  public myform: FormGroup;
+export class FormWrapperService implements AbstractFormWrapper {
+  myform: FormGroup;
   private _baseForm: BaseForm;
 
   public get errors(): string[] {
@@ -119,18 +129,61 @@ export class FormWrapperService {
 }
 ```
 
-### Component Using the Service
+### Concrete Implementation 2 (`FormWrapperTrackingService`)
+
+```ts
+@Injectable()
+export class FormWrapperTrackingService implements AbstractFormWrapper {
+  private _anotherBaseForm: BaseForm;
+  myform: FormGroup;
+
+  public get errors(): string[] {
+    return this.translationToSpanish();
+  }
+
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this._anotherBaseForm = new BaseForm(this.fb, this.http, 'A');
+    this.myform = this._anotherBaseForm.myform;
+  }
+
+  save(form: FormGroup): boolean {
+    this._anotherBaseForm.myform = form;
+    this._anotherBaseForm.save();
+    console.log('sending data to another service');
+    return this._anotherBaseForm.errors.length === 0;
+  }
+
+  private translationToSpanish(): string[] {
+    return this._anotherBaseForm.errors.map((a) => {
+      return this.translate(a);
+    });
+  }
+
+  private translate(string) {
+    return 'Un error';
+  }
+}
+```
+
+### Component Usage with Dependency Injection
+
+By providing `AbstractFormWrapper` in the component and choosing a concrete implementation (`FormWrapperService` or `FormWrapperTrackingService`), we can switch behavior without modifying component logic.
 
 ```ts
 @Component({
   selector: 'app-waiting-list',
   templateUrl: './waiting-list.component.html',
+  providers: [ {
+      provide: AbstractFormWrapper,
+      useClass: FormWrapperService
+      // Or FormWrapperTrackingService
+    } ]
 })
 export class WaitingListComponent {
   myform: FormGroup;
   errors: string[] = [];
 
-  constructor(private formWrapper: FormWrapperService) {
+  constructor(private formWrapper: AbstractFormWrapper) {
     this.myform = formWrapper.myform;
   }
 
@@ -141,11 +194,6 @@ export class WaitingListComponent {
   }
 }
 ```
-
-> [!TIP]
-> For even more flexibility, consider injecting an abstract interface instead of a concrete service. This allows for swapping implementations via Angular's dependency injection system without changing component logic.
-
----
 
 ## Sources
 

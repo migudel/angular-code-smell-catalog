@@ -20,14 +20,12 @@ By doing so, developers break Angular's declarative paradigm, increase maintenan
 ## Non-Compliant Code Example
 
 ```ts
-import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-pipe-demonstration',
   template: `<form>
     <div>
       <label>Enter a file size</label>
-      <input type="number" (change)="valuechange($event)" />
+      <input type="number" (change)="valueChange($event)" />
       <p>{{ formattedSize }}</p>
     </div>
   </form>`,
@@ -35,7 +33,7 @@ import { Component } from '@angular/core';
 export class PipeDemonstrationComponent {
   formattedSize = '';
 
-  public valuechange(event: any) {
+  public valueChange(event: any) {
     const size = Number.parseInt(event.target.value);
     this.formattedSize = (size / (1024 * 1024)).toFixed(2) + 'MB';
   }
@@ -50,7 +48,8 @@ export class PipeDemonstrationComponent {
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'filesize' })
-export default class FileSizeFormatterPipe implements PipeTransform {
+export default class FileSizeFormatterPipe 
+  implements PipeTransform {
   transform(size: number): string {
     return (size / (1024 * 1024)).toFixed(2) + 'MB';
   }
@@ -58,8 +57,6 @@ export default class FileSizeFormatterPipe implements PipeTransform {
 ```
 
 ```ts
-import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-pipe-demonstration',
   template: `<form>

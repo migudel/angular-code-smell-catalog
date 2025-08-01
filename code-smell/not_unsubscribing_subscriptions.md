@@ -92,6 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ### Using `takeUntilDestroyed` (Angular 16+)
 
+This approach leverages the `takeUntilDestroyed` operator, introduced in Angular 16. It abstracts away the need for manual unsubscription by internally linking the subscription lifecycle to the component's `onDestroy` hook.
+
+
 ```ts
 @Component({
   selector: 'app-example',
@@ -112,7 +115,7 @@ export class ExampleComponent implements OnInit {
 
 ### Using the `AsyncPipe` in Templates
 
-Using the `async` pipe directly in the template handles both subscription and unsubscription automatically:
+Using the `async` pipe directly in the template handles both, subscription and unsubscription automatically.
 
 ```ts
 @Component({
@@ -123,14 +126,6 @@ export class ExampleComponent {
   myObservable$ = this.dataService.getData().pipe(map(data => data.item));
 }
 ```
-
-> [!Note]
-> See also:
->
-> - [Use `async` pipe when possible][1]
-> - [`takeUntilDestroyed` in Angular v16 (Angular Love)][2]
-> - [Angular Docs – takeUntilDestroyed()][3]
-> - [Exploring takeUntilDestroyed (Netanel Basal)][4]
 
 ---
 
@@ -148,6 +143,14 @@ export class ExampleComponent {
 - [https://www.sourceallies.com/2020/11/state-management-anti-patterns/](https://www.sourceallies.com/2020/11/state-management-anti-patterns/) (Section 3)
 - [https://medium.com/@OPTASY.com/what-are-the-5-most-common-angular-mistakes-that-developers-make-53f6d7c5bf65](https://medium.com/@OPTASY.com/what-are-the-5-most-common-angular-mistakes-that-developers-make-53f6d7c5bf65) (Section 2)
 - [https://zydesoft.com/must-know-clean-code-principles-in-angular/](https://zydesoft.com/must-know-clean-code-principles-in-angular/) (Section 5)
+
+> [!Note]
+> See also:
+>
+> - [Use `async` pipe when possible][1]
+> - [`takeUntilDestroyed` in Angular v16 (Angular Love)][2]
+> - [Angular Docs – takeUntilDestroyed()][3]
+> - [Exploring takeUntilDestroyed (Netanel Basal)][4]
 
 [1]: https://blog.eyas.sh/2018/12/use-asyncpipe-when-possible/
 [2]: https://angular.love/takeuntildestroy-in-angular-v16

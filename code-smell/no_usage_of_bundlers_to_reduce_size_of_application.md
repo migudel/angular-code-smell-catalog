@@ -4,7 +4,7 @@
 > This code smell applies to Angular 8.x applications (when Ivy was experimental and had to be enabled manually). Starting with Angular 9, Ivy is the default rendering engine, and as of Angular 12 it is the only supported engine.
 
 ## Description
-Failing to enable Angular’s Ivy compiler and AOT (*Ahead‑of‑Time*) compilation prevents you from taking advantage of Ivy’s built‑in optimizations—most importantly tree‑shaking unused code, reducing bundle size, speeding up builds, and improving debugging.
+Failing to enable Angular’s Ivy compiler and AOT (*Ahead‑of‑Time*) compilation prevents you from taking advantage of Ivy’s built‑in optimizations —most importantly tree‑shaking unused code, reducing bundle size, speeding up builds, and improving debugging.
 
 This typically happens when:
 

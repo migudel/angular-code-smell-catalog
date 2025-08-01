@@ -11,12 +11,11 @@ Instead of directly manipulating the DOM, Angular encourages the use of:
 - **Template bindings** (`[hidden]`, `[style]`, `[class]`, `[attr.disabled]`, `[innerHTML]`, etc.)
 - **Structural and attribute directives** (`*ngIf`, `*ngFor`, `ngClass`, `ngStyle`)
 - **Custom directives** for more advanced behavior
+- `ElementRef` should only be used in highly controlled and fully sanitized contexts.
 - **`Renderer2`** for safe and decoupled DOM manipulation
 
 > [!warning]
 > This last option is provided by Angular and had one property ([`nativeElement`](https://angular.dev/api/core/ElementRef)) which it is not recommended. Direct DOM manipulation should only be considered if it is absolutely necessary. Before applying it, carefully reconsider other safer alternatives. If you must use it, it is strongly recommended to combine it with DomSanitizer to ensure maximum security.
-
-- ElementRef should only be used in highly controlled and fully sanitized contexts.
 
 ## Why This Is a Code Smell
 
@@ -61,16 +60,21 @@ ngAfterViewInit(): void {
 export class TestComponent {
   isDisabled = true;
   isHighlighted = true;
-  htmlContent = this.sanitizer.bypassSecurityTrustHtml('<p>Hello</p>');
-  // The following code is not recommended if it is not absolutely 
-  // necessary but is shown to correspond to the non-compliant example
+  htmlContent = this.sanitizer
+    .bypassSecurityTrustHtml('<p>Hello</p>');
+  // The following code is not recommended if it is not
+  // absolutely necessary but is shown to correspond to
+  // the non-compliant example
   constructor(private sanitizer: DomSanitizer) {}
 }
 ```
 
 ```html
 <!-- Declarative and safe -->
-<input [disabled]="isDisabled" [ngClass]="{ 'highlighted': isHighlighted }" />
+<input
+  [disabled]="isDisabled"
+  [ngClass]="{ 'highlighted': isHighlighted }"
+  />
 <div [innerHTML]="htmlContent"></div>
 ```
 
@@ -103,8 +107,14 @@ export class ButtonComponent implements AfterViewInit {
   constructor(private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
-    this.renderer.setAttribute(this.buttonRef.nativeElement, 'disabled', 'true');
-    this.renderer.addClass(this.buttonRef.nativeElement, 'highlighted');
+    this.renderer.setAttribute(
+      this.buttonRef.nativeElement, 
+      'disabled', 'true'
+      );
+    this.renderer.addClass(
+      this.buttonRef.nativeElement, 
+      'highlighted'
+      );
   }
 }
 ```
